@@ -22,7 +22,7 @@
  *   '',  'bb'  => 'bb'
  */
 function concatenateStrings(value1, value2) {
-    return value1 + value2; 
+    return value1 + value2;
 }
 
 
@@ -38,7 +38,7 @@ function concatenateStrings(value1, value2) {
  *   ''      => 0
  */
 function getStringLength(value) {
-    return value.length;
+   return value.length;
 }
 
 /**
@@ -69,7 +69,7 @@ function getStringFromTemplate(firstName, lastName) {
  *   'Hello, Chuck Norris!' => 'Chuck Norris'
  */
 function extractNameFromTemplate(value) {
-  return value.slice(7, value.length - 1);
+    return value.slice(7, value.length - 1);
 }
 
 
@@ -84,7 +84,7 @@ function extractNameFromTemplate(value) {
  *   'cat'       => 'c'
  */
 function getFirstChar(value) {
-    return value[0];
+   return value[0];
 }
 
 /**
@@ -130,7 +130,7 @@ function repeatString(value, count) {
  *   'ABABAB','BA' => 'ABAB'
  */
 function removeFirstOccurrences(str, value) {
-    return value = str.slice(0, str.indexOf(value)) + str.slice(str.indexOf(value) + value.length);
+    return str.replace(value, '');
 }
 
 /**
@@ -145,7 +145,7 @@ function removeFirstOccurrences(str, value) {
  *   '<a>' => 'a'
  */
 function unbracketTag(str) {
-    return str.slice(1, str.length - 1);
+    return str.slice(1, -1);
 }
 
 
@@ -174,7 +174,7 @@ function convertToUpperCase(str) {
  *   'info@gmail.com' => ['info@gmail.com']
  */
 function extractEmails(str) {
-    return str.split(';');
+  return str.split(';');
 }
 
 /**
@@ -201,7 +201,16 @@ function extractEmails(str) {
  *
  */
 function getRectangleString(width, height) {
-    throw new Error('Not implemented');
+  const gap = ' ';
+  let figure = '';
+  for(let i = 0; i < height; i++) {
+    switch (i) {
+      case 0: figure += `┌${'─'.repeat(width - 2)}┐\n`; break;
+      case (height - 1): figure +=`└${'─'.repeat(width - 2)}┘\n`; break;
+      default: figure += `│${gap.repeat(width - 2)}│\n`; break;
+    }
+  }
+  return figure;
 }
 
 
@@ -221,7 +230,32 @@ function getRectangleString(width, height) {
  *
  */
 function encodeToRot13(str) {
-    throw new Error('Not implemented');
+  const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+  let resPhrase = '';
+  const readyFor = str.toLowerCase();
+  
+  const translate = (i,indexAlphabet, number) => {
+    if(str[i] !== readyFor[i]) {
+      resPhrase += alphabet[indexAlphabet + number].toUpperCase();
+    } else {
+      resPhrase += alphabet[indexAlphabet + number];
+    }
+  } 
+  
+  for (let i = 0; i < str.length; i++) {
+    const indexAlphabet = alphabet.indexOf(readyFor[i]);
+    if(indexAlphabet === -1) {
+      resPhrase += readyFor[i];
+      continue;
+    }
+  
+    if(indexAlphabet >= 13) {
+      translate(i, indexAlphabet, -13);
+    } else {
+      translate(i, indexAlphabet, 13);
+    }
+  }
+  return resPhrase;
 }
 
 /**
@@ -238,7 +272,11 @@ function encodeToRot13(str) {
  *   isString(new String('test')) => true
  */
 function isString(value) {
-    return value === null || typeof value == 'undefined'? false: (typeof value.valueOf() === 'string')? true: false;
+   if(!value) {
+       return false;
+   } else {
+    return typeof value.valueOf() === 'string'? true:false;
+   }
 }
 
 
@@ -267,11 +305,12 @@ function isString(value) {
  *   'K♠' => 51
  */
 function getCardId(value) {
-    const arr = ['A♣','2♣','3♣','4♣','5♣','6♣','7♣','8♣','9♣','10♣','J♣','Q♣','K♣',
+    const arr = [
+      'A♣','2♣','3♣','4♣','5♣','6♣','7♣','8♣','9♣','10♣','J♣','Q♣','K♣',
       'A♦','2♦','3♦','4♦','5♦','6♦','7♦','8♦','9♦','10♦','J♦','Q♦','K♦',
       'A♥','2♥','3♥','4♥','5♥','6♥','7♥','8♥','9♥','10♥','J♥','Q♥','K♥',
       'A♠','2♠','3♠','4♠','5♠','6♠','7♠','8♠','9♠','10♠','J♠','Q♠','K♠'];
-      return arr.indexOf(value);
+    return arr.indexOf(value);
 }
 
 
